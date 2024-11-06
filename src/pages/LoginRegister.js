@@ -3,7 +3,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { AppContext } from '../AppContext'
 import { useNavigate } from 'react-router-dom'
-
+import api from '../api' 
 
 export default function Home() {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ export default function Home() {
     e.preventDefault()
     console.log(phone, password)
     try {
-      const response = await axios.post('http://localhost:5713/login', {
+      const response = await api.post('/login', {
         phone: phone,
         password: password
       }, { withCredentials: true })
@@ -37,7 +37,7 @@ export default function Home() {
     e.preventDefault()
     console.log(phone, password)
     try {
-      const response = await axios.post('http://localhost:5713/signup', {
+      const response = await api.post('/signup', {
         phone: phone,
         password: password, role: "user", name: ""
       }, { withCredentials: true })

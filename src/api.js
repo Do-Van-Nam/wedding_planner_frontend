@@ -3,7 +3,8 @@ import axios from 'axios'
 // import axios-interceptor from 'axios-interceptor'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5713',
+    // baseURL: 'http://localhost:5713',
+    baseURL: 'https://wedding-planner-backend.up.railway.app',
     withCredentials: true
 })
 
