@@ -25,7 +25,6 @@ function App() {
   return (
     <AppProvider>
       {location.pathname !== '/' && <Header />}
-      {/* <Header/> */}
       <Routes >
         <Route path='/' element={<LoginRegister />} />
           <Route path='/home' element={<Home />} />
