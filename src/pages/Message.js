@@ -18,9 +18,9 @@ export default function Message() {
         .catch(error => console.log(error));
     } catch (error) {
       console.log(error);
-    }
+    } 
   }, [acc]);
-
+ 
   const fetchMessage = async (chatRoomId) => {
     try {
       const response = await api.get(`/message/chatRoomId/${chatRoomId}`);
@@ -53,6 +53,8 @@ const handleSendMessage = async()=>{
   return (
     <div className='d-flex position-relative' style={{ height: '100vh', width: '100vw',maxWidth:'100vw' }}>
       <div className='border border-black d-flex flex-column' style={{ width: '25%', height: '100%', paddingTop: '100px' }}>
+        {chatters.length ===0 ? (<h3 style={{textAlign:'center'}}>Bạn chưa có tin nhắn nào</h3>):(<></>)}
+        
         {chatters.map((e, i) => (
           <div
             key={i}

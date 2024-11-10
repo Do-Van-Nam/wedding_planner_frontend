@@ -24,17 +24,19 @@ export default function Home() {
     //         }
     //         )
     // }, [selectedBuilding])
+    const [editWeddingInfoVisible, setEditWeddingInfoVisible] = useState(false)
+    const { acc, setAcc, plan, setPlan } = useContext(AppContext);
     const navigate = useNavigate()
     useEffect(() => {
         try {
-            api.get('/acc/check-auth')
+            api.get(`/acc/id/${acc._id}`)
                 .then(response => {
                     console.log(response.data.user)
                     setAcc(response.data.user)
                 }
                 )
                 .catch(error => {
-                    navigate('/')
+                    // navigate('/')
                     console.log(error)
                 }
                 )
@@ -42,9 +44,10 @@ export default function Home() {
             console.log(error)
         }
         console.log(acc)
-    }, [])
-    const { acc, setAcc, plan, setPlan } = useContext(AppContext);
-const [plan1,setPlan1] = useState({})
+
+    }, [editWeddingInfoVisible])
+   
+    const [plan1, setPlan1] = useState({})
 
     // const floors = Array.from({ length: selectedBuilding.noFloor }, (__, index) => selectedBuilding.noFloor - index)
     // const hideEditBuildingPopup = () => {
@@ -70,7 +73,6 @@ const [plan1,setPlan1] = useState({})
         { vendor: 'Thiệp Cưới', icon: 'bi-envelope-fill' },     // Icon: Phong bì
     ]
     const [venueExpanded, setVenueExpanded] = useState(true)
-    const [editWeddingInfoVisible, setEditWeddingInfoVisible] = useState(false)
     const toggleVenueBoxSize = () => setVenueExpanded(!venueExpanded)
     const closeEditWeddingInfo = () => setEditWeddingInfoVisible(false)
     const [addVenueVisible, setAddVenueVisible] = useState(false)
@@ -81,20 +83,20 @@ const [plan1,setPlan1] = useState({})
     const [selectVendorPopup, setSelectVendorPopup] = useState(false)
     const [vendorType, setVendorType] = useState('')
     useEffect(() => {
-        if (acc && acc._id) { 
+        if (acc && acc._id) {
             api.get(`/plan/${acc._id}`)
                 .then((response) => {
                     setPlan(response.data.plan);
-                    console.log("Dữ liệu plan:", response.data.plan); 
+                    console.log("Dữ liệu plan:", response.data.plan);
                 })
                 .catch(error => console.log(error));
         }
     }, [acc]);
-        useEffect(() => {
+    useEffect(() => {
         api.get(`/plan/${acc._id}`)
             .then((response) => {
                 setPlan(response.data.plan)
-                
+
             })
             .catch(error => console.log(error))
     }, [acc._id])
@@ -242,7 +244,7 @@ const [plan1,setPlan1] = useState({})
             style={{ padding: '0', margin: '0', border: '0', backgroundColor: "#f1ece4" }}>
 
 
-            <EditWeddingInfo isVisible={editWeddingInfoVisible} onClose={closeEditWeddingInfo} acc={acc} plan={plan}/>
+            <EditWeddingInfo isVisible={editWeddingInfoVisible} onClose={closeEditWeddingInfo} acc={acc} plan={plan} />
 
 
             {/* <AddVendorItem isVisible={addVenueVisible} onClose={closeAddVenue} type={'venue'}/> */}
@@ -252,15 +254,17 @@ const [plan1,setPlan1] = useState({})
                 style={{ cursor: 'pointer', backgroundColor: "#f1ece4", width: '90vw', maxWidth: '90vw', marginTop: '15vh' }}
                 onClick={() => setEditWeddingInfoVisible(true)}
             >
-          <img src='images/heartShape.png' class=" me-2" alt="..." style={{ height: '50px', width: 'auto' }}></img>
+                <img src='images/heartShape.png' class=" me-2" alt="..." style={{ height: '50px', width: 'auto' }}></img>
+{
+    plan ? (<><h3>{noDaysUtilEvent()} ngày tới ngày cưới!</h3>
+    <h1>{acc.name} <i class="bi bi-heart-fill" style={{ fontSize: '30px', color: '#ff44cb' }}></i> {plan?.partner || ""}</h1>
+    <div className='d-flex'>
+        <div className='me-3'>{formatDate(plan?.date || null)}</div>
+        <div>{plan?.location || ""}</div>
 
-                <h3>{noDaysUtilEvent()} ngày tới ngày cưới!</h3>
-                <h1>{acc.name} <i class="bi bi-heart-fill" style={{fontSize:'30px',color:'#ff44cb'}}></i> {plan?.partner||""}</h1>
-                <div className='d-flex'>
-                    <div className='me-3'>{formatDate(plan?.date||null)}</div>
-                    <div>{plan?.location||""}</div>
-
-                </div>
+    </div></>):(<h3>Thêm thông tin đám cưới của bạn</h3>)
+}
+                
             </div>
 
 
@@ -278,35 +282,33 @@ const [plan1,setPlan1] = useState({})
                         overflow: 'hidden',
                         transition: 'max-height 1s ease-in-out',
                     }}>
-                    <div className='d-flex justify-content-between align-items-center' style={{width:'100%'}}>
+                    <div className='d-flex justify-content-between align-items-center' style={{ width: '100%' }}>
                         <div className='d-flex justify-content-between'
                             style={{ fontSize: '24px', fontWeight: '600', paddingBottom: '10px' }}
                         >
-Ngân sách
-                               
-                            
+                            Ngân sách
                         </div>
                         <Link to={'/budget'}>
-                        
-                        
-                        <button type="button" className="btn btn-lg rounded-pill"
-                            style={{ boxSizing: 'border-box', backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
-                            Chi tiết
-                        </button>
+
+
+                            <button type="button" className="btn btn-lg rounded-pill"
+                                style={{ boxSizing: 'border-box', backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
+                                Chi tiết
+                            </button>
                         </Link>
                     </div>
 
 
 
                     <div className='d-flex  align-items-center justify-content-around'>
-                    
+
                         <div style={{ fontSize: '24px', color: '#ff44cb', textAlign: 'center' }}>
                             Ngân sách dự kiến<br></br>
-                            {plan?.budget?.toLocaleString('vi-VN')|| 0} đ
+                            {plan?.budget?.toLocaleString('vi-VN') || 0} đ
                         </div>
                         <div style={{ fontSize: '24px', color: '#ff44cb', textAlign: 'center' }}>
                             Đã sử dụng <br />
-                            60%
+                            0%
                         </div>
                     </div>
                 </div>
@@ -327,12 +329,12 @@ Ngân sách
                             Địa điểm
                         </div>
                         <Link to={'/marketplace/venue'}>
-                        
-                        
-                        <button type="button" className="btn btn-lg rounded-pill"
-                            style={{ boxSizing: 'border-box', backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
-                            Tìm địa điểm
-                        </button>
+
+
+                            <button type="button" className="btn btn-lg rounded-pill"
+                                style={{ boxSizing: 'border-box', backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
+                                Tìm địa điểm
+                            </button>
                         </Link>
                     </div>
 
@@ -342,7 +344,7 @@ Ngân sách
 
                     <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: '10px' }}>
                         <div style={{ fontSize: '14px', fontWeight: '700', color: '#333' }}>Khám phá các địa điểm</div>
-                        
+
                         <Link to={'/marketplace/venue'} style={{ fontSize: '14px', color: '#ff44cb' }}>
                             Xem tất cả
                         </Link>
@@ -381,10 +383,10 @@ Ngân sách
                             Trang phục và Nhẫn cưới
                         </div>
                         <Link to={'/marketplace/rings'}>
-                        <button type="button" className="btn btn-lg rounded-pill"
-                            style={{ backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
-                            Tìm Trang phục và Nhẫn
-                        </button>
+                            <button type="button" className="btn btn-lg rounded-pill"
+                                style={{ backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
+                                Tìm Trang phục và Nhẫn
+                            </button>
                         </Link>
                     </div>
 
@@ -435,10 +437,10 @@ Ngân sách
                             Nhà cung cấp
                         </div>
                         <Link to={'/marketplace/venue'}>
-                        <button type="button" className="btn btn-lg rounded-pill"
-                            style={{ backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
-                            Tìm Nhà cung cấp
-                        </button>
+                            <button type="button" className="btn btn-lg rounded-pill"
+                                style={{ backgroundColor: '#ff44cb', color: 'white', fontWeight: '500', padding: '10px 20px' }}>
+                                Tìm Nhà cung cấp
+                            </button>
                         </Link>
                     </div>
 

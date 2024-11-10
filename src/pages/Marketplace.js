@@ -28,7 +28,7 @@ export default function Marketplace({ props1 }) {
       } catch (error) {
         console.log(error)
       }
-    },[])
+    },[type])
 
     console.log(type)
     return (

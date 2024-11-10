@@ -12,19 +12,19 @@ export default function Favourite() {
   const vendorType = [
     { vendor: 'Địa điểm', type: 'venue' },
     { vendor: 'Nhiếp Ảnh Gia', type: 'photographer' },
-    { vendor: 'Tiệc Cưới', type: 'wedding_party' },
-    { vendor: 'Áo Cưới', type: 'wedding_dress' },
-    { vendor: 'Nhà Tổ Chức', type: 'organizer' },
-    { vendor: 'Bánh Cưới', type: 'wedding_cake' },
+    { vendor: 'Tiệc Cưới', type: 'catering' },
+    { vendor: 'Áo Cưới', type: 'bridal-gown' },
+    { vendor: 'Nhà Tổ Chức', type: 'wedding-planner' },
+    { vendor: 'Bánh Cưới', type: 'wedding-cake' },
     { vendor: 'DJ', type: 'dj' },
     { vendor: 'Quay Phim', type: 'videographer' },
-    { vendor: 'Đồ Cưới', type: 'wedding_supplies' },
-    { vendor: 'Trang Điểm', type: 'makeup' },
-    { vendor: 'Hoa Cưới', type: 'florist' },
+    { vendor: 'Đồ Cưới', type: 'rental-bridal' },
+    { vendor: 'Trang Điểm', type: 'makeup-services' },
+    { vendor: 'Hoa Cưới', type: 'flowers' },
     { vendor: 'Ban Nhạc', type: 'band' },
-    { vendor: 'Quay Bar', type: 'bartender' },
-    { vendor: 'Rước Dâu', type: 'wedding_transport' },
-    { vendor: 'Thiệp Cưới', type: 'invitation' }
+    { vendor: 'Quay Bar', type: 'bar-service' },
+    { vendor: 'Rước Dâu', type: 'transportation' },
+    { vendor: 'Thiệp Cưới', type: 'invitations' }
   ];
 
   const [vendorsId, setVendorsId] = useState([])
@@ -76,7 +76,7 @@ export default function Favourite() {
   return (
     <div className='d-flex flex-wrap' style={{ padding: '8vw' }}>
       {vendorType.map(vendor => {
-        const filteredVendors = vendors.filter(e => e.type === vendor.type); // Lọc các vendor theo type
+        const filteredVendors = vendors.filter(e =>e!==null&& e.type!==null && e.type === vendor.type); // Lọc các vendor theo type
 
         return (<>
 

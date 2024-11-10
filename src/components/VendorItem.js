@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import api from '../api';
 import { AppContext } from '../AppContext';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export default function VendorItem({ props }) {
   const location = useLocation()
+  const navigate = useNavigate()
   const pathSegments = location.pathname.split('/')
   const endPart  = pathSegments[pathSegments.length-1]
   const isFavouritePage = endPart==="favourite"
@@ -47,6 +48,17 @@ export default function VendorItem({ props }) {
       )
       .catch(error => console.log(error))
   }, [])
+  const handleContact = async ()=>{
+    try {
+      const response = await api.post(`/chatroom`,{
+        user1Id:acc._id, user2Id:props.accId 
+      })
+    } catch (error) {
+      console.log(error)
+    }
+    
+    navigate('/chat')
+  }
   return (
 
     <div className='m-2  bg-body-tertiary  position-relative'
@@ -70,17 +82,17 @@ export default function VendorItem({ props }) {
 
         <div className="carousel-inner rounded" style={{ height: '100%', width: '100%' }}>
           <div className="carousel-item active" style={{ height: '100%' }}>
-            <img src="https://via.placeholder.com/800x400?text=Image+1" className="d-block w-100 h-100" alt="Image 1"
+            <img src={props.imgLink} className="d-block w-100 h-100" alt="Image 1"
               style={{ objectFit: 'cover' }} />
           </div>
-          <div className="carousel-item" style={{ height: '100%' }}>
+          {/* <div className="carousel-item" style={{ height: '100%' }}>
             <img src="https://via.placeholder.com/800x400?text=Image+2" className="d-block w-100 h-100" alt="Image 2"
               style={{ objectFit: 'cover' }} />
           </div>
           <div className="carousel-item" style={{ height: '100%' }}>
             <img src="https://via.placeholder.com/800x400?text=Image+3" className="d-block w-100 h-100" alt="Image 3"
               style={{ objectFit: 'cover' }} />
-          </div>
+          </div> */}
         </div>
 
         <button className="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
@@ -94,7 +106,7 @@ export default function VendorItem({ props }) {
       </div>
 
       <div className='d-flex justify-content-between p-1'>
-        <p style={{ fontSize: '14px', margin: '0' }}>{props.subInfo}</p>
+        <p style={{ fontSize: '14px', margin: '0' }}>{props.address}</p>
         <p style={{ fontSize: '14px', margin: '0' }}>
           <i className="bi bi-star-fill" style={{ color: '#fbaf00' }}> </i>
           {props.rate} ({props.noReview})
@@ -102,7 +114,7 @@ export default function VendorItem({ props }) {
       </div>
 
       <div className='ms-2' style={{ fontSize: '18px', fontWeight: '600' }}>{props.name}</div>
-      <div className='ms-2' style={{ fontSize: '14px', color: '#6c757d' }}>{props.noGuests} khách - {props.price} đ</div>
+      <div className='ms-2' style={{ fontSize: '14px', color: '#6c757d' }}>{props.subInfo} <br/> {props.priceFrom}-{props.priceTo} đ</div>
 
       <div className='ms-2'
         style={{
@@ -127,7 +139,9 @@ export default function VendorItem({ props }) {
           fontSize: '16px',
           padding: '10px 20px',
           width: isFavouritePage? '50%': '100%'
-        }}>
+        }}
+        onClick={handleContact}
+        >
         Liên hệ báo giá
       </button>
 {isFavouritePage&& (

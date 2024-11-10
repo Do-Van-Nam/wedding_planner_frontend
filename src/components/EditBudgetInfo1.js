@@ -5,12 +5,11 @@ import api from '../../api';
 
 export default function EditWeddingInfo({ isVisible, onClose,acc,plan}) {
 
-  const {setAcc} = useContext(AppContext)
+  
   // console.log(acc,plan, plan.partner)
   const [name,setName] = useState(acc?.name||"")
   const [partner,setPartner] = useState(plan?.partner||"")
   const [location,setLocation] = useState(plan?.location||"")
-  const [budget,setBudget] = useState(plan?.budget||"")
   // const plandate = new Date(plan.date);
   // const formattedDate = plandate.toISOString()
   const [date, setDate] = useState(plan?.date ? plan.date.slice(0, 10) : ""); 
@@ -25,37 +24,13 @@ export default function EditWeddingInfo({ isVisible, onClose,acc,plan}) {
 
 
   const handleUpdate = async() => {
-    try {
-      if(plan){
-        const response = await api.put(`/plan/${plan?._id}`,{
-          accId:acc._id, partner,date,location,vendors : plan?.vendors||[]
-        })
-        
-        const response1  = await api.put(`/acc/updateField/${acc._id}`,{
-          field: "name",
-          value: name
-        })
-
-       setAcc(response1.data.updatedAcc)
-
-        onClose()
-      }
-      else {
-        const response = await api.post('/plan',{
-          accId:acc._id,paid:0,budget, partner,date,location,vendors : []
-        })
-        const response1  = await api.put(`/acc/updateField/${acc._id}`,{
-          field: "name",
-          value: name
-        })
-    setAcc(response1.data.updatedAcc)
-        onClose()
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    
-    
+    api.put(`/plan/${plan._id}`,{
+      accId:acc._id, partner,date,location,vendors : plan.vendors
+    })
+    .then((response)=>{
+onClose()
+    })
+    .catch(error => console.log(error))
   };
 
  
@@ -96,11 +71,6 @@ export default function EditWeddingInfo({ isVisible, onClose,acc,plan}) {
         <input type="text" className={`form-control ${style.customInput}`} id="floatingInputLocation" placeholder=""
           name="location" value={location} onChange={(e)=>setLocation(e.target.value)}/>
         <label htmlFor="floatingInputLocation">Địa điểm</label>
-      </div>
-      <div className="form-floating mb-3" style={{ width: '80%' }}>
-        <input type="number" className={`form-control ${style.customInput}`} id="floatingInputLocation" placeholder=""
-          name="budget" value={budget} onChange={(e)=>setBudget(e.target.value)}/>
-        <label htmlFor="floatingInputLocation">Ngân sách</label>
       </div>
 
       <button type="button" onClick={handleUpdate} className="btn btn-lg rounded-pill position-absolute bottom-0 mb-3"

@@ -34,7 +34,7 @@ function App() {
           <Route path='/marketplace/*' element={<Marketplace />} />
           <Route path='/checklist' element={<Checklist/>} />
           <Route path='/favourite' element={<Favourite/>} />
-          <Route path='/message' element={<Message/>} />
+          <Route path='/chat' element={<Message/>} />
           <Route path='/guests' element={<Rooms/>} />
           <Route path='/budget'  />
     

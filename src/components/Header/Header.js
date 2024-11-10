@@ -67,7 +67,7 @@ export default function Header() {
       [
         { categoryItemName: 'Nhà Cung Cấp Của Bạn', link: '/your-vendors' },
         { categoryItemName: 'Quản Lý Nhà Cung Cấp', link: '/manage-vendors' },
-        { categoryItemName: 'Trò Chuyện Với Nhà Cung Cấp', link: '/chat-vendors' },
+        { categoryItemName: 'Trò Chuyện Với Nhà Cung Cấp', link: '/chat' },
         { categoryItemName: 'Đánh Giá Nhà Cung Cấp', link: '/review-vendors' }
       ],
       [
@@ -108,7 +108,7 @@ export default function Header() {
     categoryName: 'Trang phục và Nhẫn',
     categoryItems: [
       [
-        { categoryItemName: 'Váy cưới', link: '/marketplace/wedding-dress' },
+        { categoryItemName: 'Váy cưới', link: '/marketplace/bridal-gown' },
         { categoryItemName: 'Váy chữ A', link: '/marketplace/a-line-dress' },
         { categoryItemName: 'Váy dạ hội', link: '/marketplace/ball-gown' },
         { categoryItemName: 'Váy nàng tiên cá', link: '/marketplace/mermaid-dress' },
@@ -178,7 +178,7 @@ export default function Header() {
         </div>
 
         <div className='d-flex align-items-center'>
-          <Link to={'/message'} style={{textDecoration:'none',color:'inherit'}}>
+          <Link to={'/chat'} style={{textDecoration:'none',color:'inherit'}}>
           
           <i class="bi bi-chat me-3" style={{ fontSize: '20px' }}></i>
           </Link>
