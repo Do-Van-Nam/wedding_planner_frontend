@@ -308,7 +308,7 @@ export default function Home() {
                         </div>
                         <div style={{ fontSize: '24px', color: '#ff44cb', textAlign: 'center' }}>
                             Đã sử dụng <br />
-                            0%
+                            {Math.round(plan?.paid / plan?.budget * 100) || 0}%
                         </div>
                     </div>
                 </div>

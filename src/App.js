@@ -12,6 +12,8 @@ import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Checklist from './pages/Checklist';
 import Message from './pages/Message';
+import Budget from './pages/Budget';
+import Guests from './pages/Guests';
 
 import api from './api';
 import PrivateRoute from './PrivateRoute';
@@ -35,8 +37,8 @@ function App() {
           <Route path='/checklist' element={<Checklist/>} />
           <Route path='/favourite' element={<Favourite/>} />
           <Route path='/chat' element={<Message/>} />
-          <Route path='/guests' element={<Rooms/>} />
-          <Route path='/budget'  />
+          <Route path='/guests' element={<Guests/>} />
+          <Route path='/budget' element={<Budget/>} />
     
 
       </Routes>
